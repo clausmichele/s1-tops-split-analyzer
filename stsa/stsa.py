@@ -344,7 +344,11 @@ class TopsSplitAnalyzer:
                 print('Loading custom shapefile:', polygon)
             # Visualize additional polygon in red color
             style = {'fillColor': '#cc0000', 'color': '#cc0000'}
-            df_mask = gpd.read_file(polygon)
+            if isinstance(polygon,str):
+                df_mask = gpd.read_file(polygon)
+            else:
+                # Use the provided shapely.geometry.Polygon
+                df_mask = polygon
             folium.GeoJson(data=df_mask, tooltip='User loaded shapefile', style_function=lambda x: style, name='Additional Polygon').add_to(m)
             folium.LayerControl().add_to(m)
         return m
